@@ -2,6 +2,7 @@ package pr4;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -27,21 +28,19 @@ public class Client {
 		String xml = xstream.toXML(inf);
 		return xml;
 	}
-	public static void sendRequest(String str) {
-
+	
+	
+	public static Info sendRequest(String str) {
+		Info inf = null;
 		try {
 			Socket s = new Socket("localhost", 6666);
 			DataOutputStream dout = new DataOutputStream(s.getOutputStream());
 			dout.writeUTF(str);
 			// dout.write(bos.toByteArray());
 			//dout.flush();
-			
-			
 			DataInputStream din = new DataInputStream(s.getInputStream());
 			String strInput = (String) din.readUTF();
-			Info inf = getStringFromXML(strInput);
-			System.out.println("Ответ сервера: " + inf.getMessage());
-			
+			inf = getStringFromXML(strInput);
 			dout.close();
 			din.close();
 			s.close();
@@ -50,9 +49,11 @@ public class Client {
 		Exception e) {
 			System.out.println(e);
 		}
+		return inf;
 	}
 
-	public static void menu() throws IOException, ClassNotFoundException {
+	
+	public static void interfaceMenu() {
 		System.out.println("Выберите действие:");
 		System.out.println("0 - Выход");
 		System.out.println("1 - Получить список закрепленных задач");
@@ -60,15 +61,21 @@ public class Client {
 		System.out.println("3 - Назначить задачу пользователю");
 		System.out.println("4 - Изменить статус задачи");
 		System.out.print("?: ");
+	}
+	
+	public static void menu() throws IOException, ClassNotFoundException {
+		
 		// Enter data using BufferReader
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-		// Reading data using readLine
-		int action = Integer.parseInt(reader.readLine());
+		//interfaceMenu();
+		int action = 1;
 		
 		while(action!=0) {
+			interfaceMenu();
+			action = Integer.parseInt(reader.readLine());
 			switch (action) {
 			case 0:
+				System.out.println("До свидания!");
 				break;
 			case 1:
 				getListTasks();
@@ -85,15 +92,25 @@ public class Client {
 			default:
 				System.out.println("Неверный пункт, попытайтесь еще раз.");
 			}
+			System.out.println("\n");
 		}
 		
 	}
 
 	public static void getListTasks() throws IOException, ClassNotFoundException {
-		Info inf = new Info(true, "get list tasks");
-		inf.setLogin("a");
+		Info inf = new Info("log1","pas1", "get list tasks");
 		String xml = serializeInfoToXML(inf);
-		sendRequest(xml);
+		Info response = sendRequest(xml);
+		System.out.println("Ответ сервера: " + response.getMessage());
+		System.out.println("Список задач: ");
+		@SuppressWarnings("unchecked")
+		ArrayList<Task> masTask=(ArrayList<Task>)response.getResultObject();
+
+		//Task []mast=(Task [])inf.getResultObject();
+		for (int i = 0; i < masTask.size(); i++) {
+			System.out.println((i+1)+": " + masTask.get(i).getNameTask());
+		}
+		
 	}
 
 	public static void createNewTask() {
