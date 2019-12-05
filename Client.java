@@ -11,9 +11,7 @@ public class Client {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-		// Info inf = new Info(true,"get tasks");
 		menu();
-
 	}
 
 	public static Info getStringFromXML(String str) {
@@ -96,11 +94,12 @@ public class Client {
 	public static Info getResponce(Info inf) {
 		String xml = serializeInfoToXML(inf);
 		Info response = sendRequest(xml);
+		System.out.println("Ответ сервера: " + response.getMessage());
 		return response;
 	}
+	
 	public static void getListTasks() throws IOException, ClassNotFoundException {
 		Info response = getResponce(new Info("log1","pas1", "get list tasks"));
-		System.out.println("Ответ сервера: " + response.getMessage());
 		System.out.println("Список задач: ");
 		@SuppressWarnings("unchecked")
 		ArrayList<Task> masTask=(ArrayList<Task>)response.getResultObject();
@@ -110,15 +109,26 @@ public class Client {
 	}
 
 	public static void createNewTask() {
-		
+		Task t1=new Task("task111","description for task111","log1","40%");
+		Info inf = getResponce(new Info("log1","pas1", "add new task",t1));
+		inf.setResultObject(t1);
 	}
 
 	public static void changeUserTask() {
-
+		Task t1=new Task("task1","","log2","");
+		Info inf = getResponce(new Info("log1","pas1", "change owner",t1));
+		inf.setResultObject(t1);
 	}
 
 	public static void changeStateTask() {
 
+		
+		Task t1=new Task();
+		t1.setNameTask("task111");
+		t1.setState("80%");
+		Info inf = getResponce(new Info("log1","pas1", "change state",t1));
+		inf.setResultObject(t1);
+		
 	}
 
 }

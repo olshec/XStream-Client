@@ -7,6 +7,14 @@ public class Info {
 	private String message;
 	private Object resultObject;
 
+	
+	public Info(String login, String password, String message, Object resultObject) {
+		setLogin(login);
+		setPassword(password);
+		setMessage(message);
+		setResultObject(resultObject);
+	}
+	
 	public Info(String login, String password, String message) {
 		setLogin(login);
 		setPassword(password);
