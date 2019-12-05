@@ -18,7 +18,6 @@ public class Client {
 
 	public static Info getStringFromXML(String str) {
 		XStream xstream = new XStream();
-		// Allow types for Info
 		xstream.allowTypes(new String[] {"pr4.Info"});
 		return (Info)xstream.fromXML(str);
 	}
@@ -36,8 +35,6 @@ public class Client {
 			Socket s = new Socket("localhost", 6666);
 			DataOutputStream dout = new DataOutputStream(s.getOutputStream());
 			dout.writeUTF(str);
-			// dout.write(bos.toByteArray());
-			//dout.flush();
 			DataInputStream din = new DataInputStream(s.getInputStream());
 			String strInput = (String) din.readUTF();
 			inf = getStringFromXML(strInput);
@@ -67,7 +64,6 @@ public class Client {
 		
 		// Enter data using BufferReader
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		//interfaceMenu();
 		int action = 1;
 		
 		while(action!=0) {
@@ -97,24 +93,24 @@ public class Client {
 		
 	}
 
-	public static void getListTasks() throws IOException, ClassNotFoundException {
-		Info inf = new Info("log1","pas1", "get list tasks");
+	public static Info getResponce(Info inf) {
 		String xml = serializeInfoToXML(inf);
 		Info response = sendRequest(xml);
+		return response;
+	}
+	public static void getListTasks() throws IOException, ClassNotFoundException {
+		Info response = getResponce(new Info("log1","pas1", "get list tasks"));
 		System.out.println("Ответ сервера: " + response.getMessage());
 		System.out.println("Список задач: ");
 		@SuppressWarnings("unchecked")
 		ArrayList<Task> masTask=(ArrayList<Task>)response.getResultObject();
-
-		//Task []mast=(Task [])inf.getResultObject();
 		for (int i = 0; i < masTask.size(); i++) {
 			System.out.println((i+1)+": " + masTask.get(i).getNameTask());
 		}
-		
 	}
 
 	public static void createNewTask() {
-
+		
 	}
 
 	public static void changeUserTask() {
