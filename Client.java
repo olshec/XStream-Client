@@ -9,6 +9,9 @@ import com.thoughtworks.xstream.XStream;
 
 public class Client {
 
+	public static String login = "";
+	public static String password = "";
+	
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		menu();
@@ -60,8 +63,14 @@ public class Client {
 	
 	public static void menu() throws IOException, ClassNotFoundException {
 		
-		// Enter data using BufferReader
+		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Здравствуйте! Добро пожаловать в систему");
+		System.out.println("Введите логин:");
+		login=reader.readLine();
+		System.out.println("Введите пароль:");
+		password=reader.readLine();
+		
 		int action = 1;
 		
 		while(action!=0) {
@@ -99,7 +108,8 @@ public class Client {
 	}
 	
 	public static void getListTasks() throws IOException, ClassNotFoundException {
-		Info response = getResponce(new Info("log1","pas1", "get list tasks"));
+
+		Info response = getResponce(new Info(login,password, "get list tasks"));
 		System.out.println("Список задач: ");
 		@SuppressWarnings("unchecked")
 		ArrayList<Task> masTask=(ArrayList<Task>)response.getResultObject();
@@ -108,25 +118,45 @@ public class Client {
 		}
 	}
 
-	public static void createNewTask() {
-		Task t1=new Task("task111","description for task111","log1","40%");
-		Info inf = getResponce(new Info("log1","pas1", "add new task",t1));
+	public static void createNewTask() throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Введите название новой задачи: ");
+		String nameTask=reader.readLine();
+		System.out.println("Введите описание задачи: ");
+		String description=reader.readLine();
+		System.out.println("Введите статус задачи: ");
+		String state=reader.readLine();
+		Task t1=new Task(nameTask,description,login,state);
+		Info inf = getResponce(new Info(login,password, "add new task",t1));
 		inf.setResultObject(t1);
 	}
 
-	public static void changeUserTask() {
-		Task t1=new Task("task1","","log2","");
-		Info inf = getResponce(new Info("log1","pas1", "change owner",t1));
-		inf.setResultObject(t1);
-	}
-
-	public static void changeStateTask() {
-
+	public static void changeUserTask() throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Введите название задачи: ");
+		String nameTask=reader.readLine();
+		System.out.println("Введите имя пользователя: ");
+		String loginTarget=reader.readLine();
 		
 		Task t1=new Task();
-		t1.setNameTask("task111");
-		t1.setState("80%");
-		Info inf = getResponce(new Info("log1","pas1", "change state",t1));
+		t1.setNameTask(nameTask);
+		t1.setNameUser(loginTarget);
+		//Task t1=new Task(nameTask,"",loginTarget,"");
+		Info inf = getResponce(new Info(login, password, "change owner",t1));
+		inf.setResultObject(t1);
+	}
+
+	public static void changeStateTask() throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Введите название задачи: ");
+		String nameTask=reader.readLine();
+		System.out.println("Введите статус задачи: ");
+		String state=reader.readLine();
+		
+		Task t1=new Task();
+		t1.setNameTask(nameTask);
+		t1.setState(state);
+		Info inf = getResponce(new Info(login,password, "change state",t1));
 		inf.setResultObject(t1);
 		
 	}
