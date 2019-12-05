@@ -66,18 +66,6 @@ public class Client {
 	}
 
 	public static void getListTasks() throws IOException, ClassNotFoundException {
-//		Info inf = new Info(true,"get tasks");
-//		 //Serialization of object
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        ObjectOutputStream out = new ObjectOutputStream(bos);
-//        out.writeObject(inf);
-// 
-//        //De-serialization of object
-//        ByteArrayInputStream bis = new   ByteArrayInputStream(bos.toByteArray());
-//        ObjectInputStream in = new ObjectInputStream(bis);
-//        Info inf2 = (Info) in.readObject();
-//        System.out.println("Info message = "+ inf2.getMessage());
-
 		XStream xstream = new XStream();
 		Info inf = new Info(true, "end");
 		String xml = xstream.toXML(inf);
