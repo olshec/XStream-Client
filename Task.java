@@ -1,3 +1,9 @@
+/**
+ * This class is used to represent the task
+ * 
+ * @author user1
+ */
+
 package pr4;
 
 public class Task {

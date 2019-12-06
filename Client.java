@@ -1,3 +1,5 @@
+
+
 package pr4;
 
 import java.io.*;
@@ -16,18 +18,33 @@ public class Client {
 		menu();
 	}
 
+	/**
+	   * This method is used to create Info class from XML representation. 
+	   * @param str This is the XML string contains data for create Info class. 
+	   * @return Info This returns new Info from XML string.
+	   */
 	public static Info getStringFromXML(String str) {
 		XStream xstream = new XStream();
 		xstream.allowTypes(new String[] { "pr4.Info" });
 		return (Info) xstream.fromXML(str);
 	}
 
+	/**
+	   * This method is used to serialize Info class to XML representation. 
+	   * @param inf This is the Info class for create XML representation. 
+	   * @return String This returns XML string representing the Info object.
+	   */
 	public static String serializeInfoToXML(Info inf) {
 		XStream xstream = new XStream();
 		String xml = xstream.toXML(inf);
 		return xml;
 	}
 
+	/**
+	   * This method sending request on the server. 
+	   * @param str This is the message for server. 
+	   * @return Info This returns response from server.
+	   */
 	public static Info sendRequest(String str) {
 		Info inf = null;
 		try {
@@ -47,7 +64,9 @@ public class Client {
 		}
 		return inf;
 	}
-
+	/**
+	   * This method used for displays the application menu
+	   */
 	public static void interfaceMenu() {
 		System.out.println("Выберите действие:");
 		System.out.println("1 - Получить список закрепленных задач");
@@ -59,6 +78,9 @@ public class Client {
 		System.out.print("?: ");
 	}
 
+	/**
+	   * This method is used to interact with the user
+	   */
 	public static void menu() throws IOException, ClassNotFoundException {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

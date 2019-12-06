@@ -1,6 +1,16 @@
+/**
+ * This class is used by the application 
+ * to exchange information with the server
+ * 
+ * @author user1
+ */
+
 package pr4;
 
 public class Info {
+	/**
+	 * 
+	 */
 	private String login;
 	private String password;
 	private boolean result;
