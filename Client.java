@@ -144,6 +144,9 @@ public class Client {
 		ArrayList<Task> masTask = (ArrayList<Task>) response.getResultObject();
 		for (int i = 0; i < masTask.size(); i++) {
 			System.out.println((i + 1) + ": " + masTask.get(i).getNameTask());
+			System.out.println("Описание: " + masTask.get(i).getDescription());
+			System.out.println("Статус: " + masTask.get(i).getState());
+			System.out.println();
 		}
 	}
 
